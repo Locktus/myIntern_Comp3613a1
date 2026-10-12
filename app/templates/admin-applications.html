@@ -1,0 +1,39 @@
+{% extends "authenticated-base.html" %}
+{% block title %}Review applications | MyIntern{% endblock %}
+
+{% block subpage_content %}
+<div class="container-fluid py-2">
+  <p class="text-uppercase small fw-semibold text-primary mb-1">Admin review</p>
+  <h1 class="h3 mb-1">Applications</h1>
+  <p class="text-muted mb-4">Review submissions and record a clear decision for each student.</p>
+  {% for application in applications %}
+  <div class="card border-0 shadow-sm mb-3">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start gap-3">
+        <div>
+          <h2 class="h5 mb-1">{{ application.application_reference }}</h2>
+          <p class="text-muted mb-2">Student ID {{ application.student_id }} · Company ID {{ application.company_id }}</p>
+          <span class="badge text-bg-{% if application.status == 'approved' %}success{% elif application.status == 'changes_requested' %}warning{% elif application.status == 'rejected' %}danger{% else %}secondary{% endif %}">
+            Current: {{ application.status|replace('_', ' ')|capitalize }}
+          </span>
+        </div>
+        <a class="btn btn-outline-primary" href="{{ application.resume }}" target="_blank" rel="noopener">View resume</a>
+      </div>
+      <form class="row g-2 mt-3" method="post" action="{{ url_for('admin_decision', application_id=application.application_id) }}">
+        <div class="col-md-7">
+          <label class="visually-hidden" for="feedback-{{ application.application_id }}">Feedback</label>
+          <input class="form-control" id="feedback-{{ application.application_id }}" name="feedback" value="{{ application.feedback or '' }}" placeholder="Feedback or decision reason">
+        </div>
+        <div class="col-md-5 d-grid gap-2">
+          <button class="btn btn-success" name="decision" value="approved" type="submit">Approve</button>
+          <button class="btn btn-warning" name="decision" value="changes_requested" type="submit">Request changes</button>
+          <button class="btn btn-outline-danger" name="decision" value="rejected" type="submit">Reject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <div class="alert alert-info">No applications are waiting for review.</div>
+  {% endfor %}
+</div>
+{% endblock %}

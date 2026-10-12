@@ -1,0 +1,76 @@
+{
+  "system": "Internship Platform",
+  "actors": [
+    {
+      "name": "Student",
+      "side": "left"
+    },
+    {
+      "name": "Admin",
+      "side": "right"
+    }
+  ],
+  "use_cases": [
+    {
+      "name": "Browse Participating Companies",
+      "actors": [
+        "Student"
+      ]
+    },
+    {
+      "name": "View Company Details and Resume Instructions",
+      "actors": [
+        "Student"
+      ],
+      "includes": [
+        "Browse Participating Companies"
+      ]
+    },
+    {
+      "name": "Submit Student Application",
+      "actors": [
+        "Student"
+      ],
+      "includes": [
+        "Upload Resume"
+      ]
+    },
+    {
+      "name": "Upload Resume",
+      "actors": [
+        "Student"
+      ]
+    },
+    {
+      "name": "Approve Application",
+      "actors": [
+        "Admin"
+      ]
+    },
+    {
+      "name": "Reject or Request Changes",
+      "actors": [
+        "Admin"
+      ],
+      "extends": [
+        "Approve Application"
+      ]
+    },
+    {
+      "name": "View Application Status",
+      "actors": [
+        "Student",
+        "Admin"
+      ]
+    },
+    {
+      "name": "View Decision Feedback",
+      "actors": [
+        "Student"
+      ],
+      "includes": [
+        "View Application Status"
+      ]
+    }
+  ]
+}

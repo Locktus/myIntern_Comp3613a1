@@ -1,0 +1,42 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam actorBorderColor #1B365D
+skinparam actorFontColor #1E232D
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #1B365D
+skinparam usecaseFontColor #1E232D
+skinparam rectangleBorderColor #1B365D
+skinparam rectangleBackgroundColor #F8FAFC
+skinparam arrowColor #1B365D
+
+actor "Student" as Student
+
+rectangle "Internship Platform" {
+  usecase "Browse Participating Companies" as Browse_Participating_Companies
+  usecase "View Company Details and Resume Instructions" as View_Company_Details_and_Resume_Instructions
+  usecase "Submit Student Application" as Submit_Student_Application
+  usecase "Upload Resume" as Upload_Resume
+  usecase "Approve Application" as Approve_Application
+  usecase "Reject or Request Changes" as Reject_or_Request_Changes
+  usecase "View Application Status" as View_Application_Status
+  usecase "View Decision Feedback" as View_Decision_Feedback
+}
+
+actor "Admin" as Admin
+
+Student --> Browse_Participating_Companies
+Student --> View_Company_Details_and_Resume_Instructions
+View_Company_Details_and_Resume_Instructions ..> Browse_Participating_Companies : <<include>>
+Student --> Submit_Student_Application
+Submit_Student_Application ..> Upload_Resume : <<include>>
+Student --> Upload_Resume
+Approve_Application <-- Admin
+Reject_or_Request_Changes <-- Admin
+Reject_or_Request_Changes ..> Approve_Application : <<extend>>
+Student --> View_Application_Status
+View_Application_Status <-- Admin
+Student --> View_Decision_Feedback
+View_Decision_Feedback ..> View_Application_Status : <<include>>
+
+@enduml

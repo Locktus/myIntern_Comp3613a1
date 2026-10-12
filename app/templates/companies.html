@@ -1,0 +1,59 @@
+{% extends "authenticated-base.html" %}
+{% block title %}Companies | MyIntern{% endblock %}
+
+{% block subpage_content %}
+<div class="container-fluid py-2">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <p class="text-uppercase small fw-semibold text-primary mb-1">Opportunities</p>
+      <h1 class="h3 mb-1">Participating companies</h1>
+      <p class="text-muted mb-0">Explore every partner and find an available internship position.</p>
+    </div>
+  </div>
+
+  <form class="row g-2 mb-4" method="get" action="{{ url_for('companies_view') }}">
+    <div class="col-md-6">
+      <label class="visually-hidden" for="search">Search companies</label>
+      <input class="form-control" id="search" name="search" value="{{ request.query_params.get('search', '') }}" placeholder="Search companies">
+    </div>
+    <div class="col-md-3">
+      <label class="visually-hidden" for="availability">Availability</label>
+      <select class="form-select" id="availability" name="availability">
+        <option value="">All positions</option>
+        <option value="available" {% if request.query_params.get('availability') == 'available' %}selected{% endif %}>Available</option>
+        <option value="full" {% if request.query_params.get('availability') == 'full' %}selected{% endif %}>Full</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary w-100" type="submit">Apply filters</button>
+    </div>
+  </form>
+
+  <div class="row g-3">
+    {% for company in companies %}
+    <div class="col-12 col-lg-6">
+      <article class="card h-100 border-0 shadow-sm">
+        <div class="card-body d-flex justify-content-between gap-3">
+          <div>
+            <h2 class="h5 mb-1">{{ company.name }}</h2>
+            <p class="text-muted mb-2">{{ company.offered_position }}</p>
+            <span class="badge text-bg-{{ 'success' if company.status == 'available' else 'secondary' }}">
+              {{ company.status|capitalize }}
+            </span>
+          </div>
+          {% if company.status == 'available' %}
+          <a class="btn btn-outline-primary align-self-center" href="{{ url_for('application_form', company_id=company.id) }}">View details &amp; apply</a>
+          {% else %}
+          <span class="text-muted small align-self-center">No current openings</span>
+          {% endif %}
+        </div>
+      </article>
+    </div>
+    {% else %}
+    <div class="col-12">
+      <div class="alert alert-info">No companies match those filters.</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

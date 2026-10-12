@@ -17,6 +17,8 @@ import argparse
 import sys
 from pathlib import Path
 
+from sqlmodel import select
+
 
 def _ensure_models_loaded() -> None:
     import app.models  # noqa: F401
@@ -53,6 +55,7 @@ def cmd_seed(args: argparse.Namespace) -> None:
     admin / adminpass   (admin)
     """
     from app.database import ensure_db_and_tables, get_cli_session
+    from app.models.internship import Company
     from app.repositories.user import UserRepository
     from app.schemas.user import AdminCreate, RegularUserCreate
     from app.utilities.security import encrypt_password
@@ -85,6 +88,37 @@ def cmd_seed(args: argparse.Namespace) -> None:
             )
             print(f"  create {username} ({role})")
             created += 1
+
+        demo_companies = [
+            Company(
+                name="ABC Technologies Ltd.",
+                offered_position="Software Development Intern",
+                description="A technology company focused on innovative software solutions.",
+                resume_instructions="Include your technical skills, projects, and relevant coursework.",
+                status="available",
+            ),
+            Company(
+                name="Caribbean Business Services",
+                offered_position="Business Administration Intern",
+                description="A regional business services firm supporting clients across the Caribbean.",
+                resume_instructions="Highlight communication, organization, and customer-service experience.",
+                status="available",
+            ),
+            Company(
+                name="Island Finance Group",
+                offered_position="Finance Intern",
+                description="A finance organization offering exposure to analysis and reporting.",
+                resume_instructions="Include quantitative skills, finance coursework, and spreadsheet experience.",
+                status="full",
+            ),
+        ]
+        for company in demo_companies:
+            existing = session.exec(
+                select(Company).where(Company.name == company.name)
+            ).first()
+            if existing is None:
+                session.add(company)
+        session.commit()
 
     print(f"Seed done — created {created}, skipped {skipped}.")
     print("Login with bob/bobpass or admin/adminpass")

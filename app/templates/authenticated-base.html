@@ -56,6 +56,20 @@
     .navbar {
         border-bottom: 1px solid #dee2e6;
     }
+
+    #menu-toggle {
+        background: var(--brand-sidebar);
+        border-color: var(--brand-sidebar);
+        color: #fff;
+        font-weight: 700;
+    }
+
+    #menu-toggle:hover,
+    #menu-toggle:focus {
+        background: var(--brand-sidebar);
+        border-color: var(--brand-sidebar);
+        color: #fff;
+    }
 </style>
 {% block additional_styles %}{% endblock %}
 {% endblock %}
@@ -63,7 +77,7 @@
 {% block content %}
 <div id="wrapper">
     <nav id="sidebar" class="p-3 d-flex flex-column vh-100">
-        <div class="brand-wordmark">FastStarter</div>
+        <div class="brand-wordmark">MyIntern</div>
 
         <ul class="nav nav-pills flex-column gap-2 flex-grow-1">
             <li class="nav-item">
@@ -73,6 +87,29 @@
                     Home
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ 'active' if request.url.path.startswith('/companies') }}"
+                   href="{{ url_for('companies_view') }}">
+                    <span class="material-symbols-outlined me-2">business</span>
+                    Companies
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ 'active' if request.url.path.startswith('/my-applications') }}"
+                   href="{{ url_for('my_applications') }}">
+                    <span class="material-symbols-outlined me-2">description</span>
+                    My applications
+                </a>
+            </li>
+            {% if user.role == 'admin' %}
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ 'active' if request.url.path.startswith('/admin/applications') }}"
+                   href="{{ url_for('admin_applications') }}">
+                    <span class="material-symbols-outlined me-2">fact_check</span>
+                    Review applications
+                </a>
+            </li>
+            {% endif %}
             <li class="nav-item mt-auto">
                 <a class="nav-link d-flex align-items-center text-danger" href="{{ url_for('logout') }}">
                     <span class="material-symbols-outlined me-2">logout</span>
@@ -84,8 +121,8 @@
 
     <div id="content">
         <nav class="navbar navbar-expand-lg bg-white mb-4 px-3 rounded-3 shadow-sm">
-            <button class="btn btn-outline-secondary" id="menu-toggle" type="button">
-                <span class="material-symbols-outlined md-dark">menu</span>
+            <button class="btn" id="menu-toggle" type="button" aria-label="Toggle navigation">
+                <span class="material-symbols-outlined">menu</span>
             </button>
             <div class="ms-auto d-flex align-items-center gap-3">
                 <span class="fw-semibold">Welcome, {{ user.username }}</span>

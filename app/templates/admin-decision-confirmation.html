@@ -1,0 +1,19 @@
+{% extends "authenticated-base.html" %}
+{% block title %}Decision recorded | MyIntern{% endblock %}
+
+{% block subpage_content %}
+<div class="container-fluid py-2">
+  <div class="card border-0 shadow-sm p-4" style="max-width: 720px;">
+    <h1 class="h3">Decision recorded</h1>
+    <p class="text-muted">
+      Application {{ application.application_reference }} is now
+      <span class="badge text-bg-{% if application.status == 'approved' %}success{% elif application.status == 'changes_requested' %}warning{% elif application.status == 'rejected' %}danger{% else %}secondary{% endif %}">
+        {{ application.status|replace('_', ' ')|capitalize }}
+      </span>.
+    </p>
+    {% if application.feedback %}
+    <p class="mb-0"><strong>Feedback:</strong> {{ application.feedback }}</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

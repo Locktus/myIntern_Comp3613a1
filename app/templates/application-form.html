@@ -1,0 +1,37 @@
+{% extends "authenticated-base.html" %}
+{% block title %}Apply | MyIntern{% endblock %}
+
+{% block subpage_content %}
+<div class="container-fluid py-2">
+  <div class="mb-4">
+    <p class="text-uppercase small fw-semibold text-primary mb-1">New application</p>
+    <h1 class="h3 mb-1">Apply to {{ company.name }}</h1>
+    <p class="text-muted mb-0">{{ company.offered_position }}</p>
+  </div>
+  <div class="card border-0 shadow-sm p-4 mb-3" style="max-width: 720px;">
+    <h2 class="h5">About this opportunity</h2>
+    <p>{{ company.description }}</p>
+    <h2 class="h6">Resume instructions</h2>
+    <p class="text-muted mb-0">{{ company.resume_instructions }}</p>
+  </div>
+  {% if application %}
+  <div class="alert alert-info" style="max-width: 720px;">
+    <strong>Existing application:</strong>
+    {{ application.application_reference }} —
+    {{ application.status|capitalize }}.
+    <a href="{{ application.resume }}" target="_blank" rel="noopener">View uploaded resume</a>
+  </div>
+  {% endif %}
+  {% if company.status == 'full' %}
+  <div class="alert alert-warning">This company is currently full and cannot accept applications.</div>
+  {% else %}
+  <form method="post" action="{{ url_for('submit_application') }}" enctype="multipart/form-data" class="card border-0 shadow-sm p-4" style="max-width: 720px;">
+    <input type="hidden" name="company_id" value="{{ company.id }}">
+    <label class="form-label fw-semibold" for="resume">Resume / CV</label>
+    <input class="form-control mb-3" id="resume" name="resume" type="file" accept=".pdf,.doc,.docx" required>
+    <p class="small text-muted">Upload a PDF or Word document.</p>
+    <button class="btn btn-primary" type="submit">Submit application</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

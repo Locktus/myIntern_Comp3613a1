@@ -1,0 +1,32 @@
+{% extends "authenticated-base.html" %}
+{% block title %}My applications | MyIntern{% endblock %}
+
+{% block subpage_content %}
+<div class="container-fluid py-2">
+  <p class="text-uppercase small fw-semibold text-primary mb-1">Application tracking</p>
+  <h1 class="h3 mb-1">My applications</h1>
+  <p class="text-muted mb-4">Track decisions and read feedback from the review team.</p>
+  {% for application in applications %}
+  <article class="card border-0 shadow-sm mb-3">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start gap-3">
+        <div>
+          <h2 class="h5 mb-1">{{ application.application_reference }}</h2>
+          <p class="text-muted mb-2">Company ID {{ application.company_id }} · Submitted {{ application.submitted_at.strftime('%d %b %Y') }}</p>
+        </div>
+        <span class="badge text-bg-{% if application.status == 'approved' %}success{% elif application.status == 'changes_requested' %}warning{% elif application.status == 'rejected' %}danger{% else %}secondary{% endif %}">
+          {{ application.status|replace('_', ' ')|capitalize }}
+        </span>
+      </div>
+      {% if application.feedback %}
+      <div class="alert alert-light border mt-3 mb-0">
+        <strong>Admin feedback:</strong> {{ application.feedback }}
+      </div>
+      {% endif %}
+    </div>
+  </article>
+  {% else %}
+  <div class="alert alert-info">You have not submitted any applications yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}
