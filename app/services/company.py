@@ -13,6 +13,8 @@ class CompanyService:
         *,
         search: str | None = None,
         availability: str | None = None,
+        industry: str | None = None,
+        location: str | None = None,
     ) -> list:
         if availability:
             normalized_availability = availability.strip().lower()
@@ -24,6 +26,8 @@ class CompanyService:
         return CompanyRepository(self.db).list_companies(
             search=search,
             availability=availability,
+            industry=industry,
+            location=location,
         )
 
     def details_for_student(self, company_id: int, student_id: int):
@@ -36,3 +40,6 @@ class CompanyService:
             else None
         )
         return company, application
+
+    def filter_options(self) -> tuple[list[str], list[str]]:
+        return CompanyRepository(self.db).filter_options()

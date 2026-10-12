@@ -15,11 +15,16 @@ async def admin_applications(
 ):
     # STUDENT CHECKPOINT: keep admin review loading in the service layer.
     service = ReviewService(db)
-    applications = service.list_applications()
+    applications, students, companies = service.review_context()
     return templates.TemplateResponse(
         request=request,
         name="admin-applications.html",
-        context={"user": user, "applications": applications},
+        context={
+            "user": user,
+            "applications": applications,
+            "students": students,
+            "companies": companies,
+        },
     )
 
 

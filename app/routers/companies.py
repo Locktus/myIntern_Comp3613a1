@@ -14,17 +14,27 @@ async def companies_view(
     db: SessionDep,
     search: str | None = None,
     availability: str | None = None,
+    industry: str | None = None,
+    location: str | None = None,
 ):
     # STUDENT CHECKPOINT: create the service and call it with both filters.
     service = CompanyService(db)
     companies = service.list_companies(
         search=search,
         availability=availability,
+        industry=industry,
+        location=location,
     )
+    industries, locations = service.filter_options()
     return templates.TemplateResponse(
         request=request,
         name="companies.html",
-        context={"user": user, "companies": companies},
+        context={
+            "user": user,
+            "companies": companies,
+            "industries": industries,
+            "locations": locations,
+        },
     )
 
 

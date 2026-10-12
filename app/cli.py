@@ -93,6 +93,9 @@ def cmd_seed(args: argparse.Namespace) -> None:
             Company(
                 name="ABC Technologies Ltd.",
                 offered_position="Software Development Intern",
+                industry="Technology",
+                location="Kingston",
+                available_positions=3,
                 description="A technology company focused on innovative software solutions.",
                 resume_instructions="Include your technical skills, projects, and relevant coursework.",
                 status="available",
@@ -100,6 +103,9 @@ def cmd_seed(args: argparse.Namespace) -> None:
             Company(
                 name="Caribbean Business Services",
                 offered_position="Business Administration Intern",
+                industry="Business Services",
+                location="Bridgetown",
+                available_positions=2,
                 description="A regional business services firm supporting clients across the Caribbean.",
                 resume_instructions="Highlight communication, organization, and customer-service experience.",
                 status="available",
@@ -107,6 +113,9 @@ def cmd_seed(args: argparse.Namespace) -> None:
             Company(
                 name="Island Finance Group",
                 offered_position="Finance Intern",
+                industry="Finance",
+                location="Kingston",
+                available_positions=0,
                 description="A finance organization offering exposure to analysis and reporting.",
                 resume_instructions="Include quantitative skills, finance coursework, and spreadsheet experience.",
                 status="full",
@@ -118,6 +127,13 @@ def cmd_seed(args: argparse.Namespace) -> None:
             ).first()
             if existing is None:
                 session.add(company)
+            else:
+                existing.industry = company.industry
+                existing.location = company.location
+                existing.available_positions = company.available_positions
+                existing.description = company.description
+                existing.resume_instructions = company.resume_instructions
+                existing.status = company.status
         session.commit()
 
     print(f"Seed done — created {created}, skipped {skipped}.")

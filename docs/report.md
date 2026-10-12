@@ -118,6 +118,9 @@ erDiagram
     int id PK
     string name
     string offered_position
+    string industry
+    string location
+    int available_positions
     string description
     string resume_instructions
     string status
@@ -241,6 +244,14 @@ totals, needs-attention/approved/rejected counts, recent submissions, open
 company positions, and a direct review-queue action. Navigation now routes
 each role to its own dashboard and hides student-only tracking links from
 administrators.
+
+### Final Phase 6 polish
+
+Company discovery now matches the storyboard more closely with industry and
+location filters, available-position counts, and richer company cards. Existing
+Render databases are upgraded non-destructively at startup with the new
+company columns. Admin review cards now show the student's name, company, and
+position rather than only database IDs.
 
 One named workflow at a time. Include verify notes and polish / model revisions
 (Phase 5). Do not treat the first build as final.

@@ -12,7 +12,10 @@
       <div class="d-flex justify-content-between align-items-start gap-3">
         <div>
           <h2 class="h5 mb-1">{{ application.application_reference }}</h2>
-          <p class="text-muted mb-2">Student ID {{ application.student_id }} · Company ID {{ application.company_id }}</p>
+          {% set student = students.get(application.student_id) %}
+          {% set company = companies.get(application.company_id) %}
+          <p class="mb-1"><strong>{{ student.first_name if student else 'Student' }} {{ student.last_name if student else application.student_id }}</strong></p>
+          <p class="text-muted mb-2">{{ company.name if company else 'Company ' ~ application.company_id }} · {{ company.offered_position if company else 'Position unavailable' }}</p>
           <span class="badge text-bg-{% if application.status == 'approved' %}success{% elif application.status == 'changes_requested' %}warning{% elif application.status == 'rejected' %}danger{% else %}secondary{% endif %}">
             Current: {{ application.status|replace('_', ' ')|capitalize }}
           </span>

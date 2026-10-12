@@ -3,6 +3,7 @@ import threading
 import time
 from contextlib import contextmanager
 
+from sqlalchemy import inspect, text
 from sqlalchemy.exc import DBAPIError, OperationalError, ProgrammingError
 from sqlmodel import SQLModel, Session, create_engine
 
@@ -38,6 +39,25 @@ def create_db_and_tables() -> None:
     import app.models  # noqa: F401
 
     SQLModel.metadata.create_all(engine)
+    _add_company_columns_for_existing_databases()
+
+
+def _add_company_columns_for_existing_databases() -> None:
+    """Add Phase 6 company fields without dropping deployed data."""
+    columns = {
+        "industry": "VARCHAR DEFAULT 'General'",
+        "location": "VARCHAR DEFAULT 'Caribbean'",
+        "available_positions": "INTEGER DEFAULT 0",
+    }
+    existing = {
+        column["name"] for column in inspect(engine).get_columns("company")
+    }
+    with engine.begin() as connection:
+        for name, definition in columns.items():
+            if name not in existing:
+                connection.execute(
+                    text(f"ALTER TABLE company ADD COLUMN {name} {definition}")
+                )
 
 
 def drop_all() -> None:

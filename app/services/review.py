@@ -1,9 +1,10 @@
 from datetime import datetime, timezone
 
 from fastapi import HTTPException
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 from app.models.internship import Admin
+from app.models.internship import Company, Student
 from app.repositories.review import ReviewRepository
 
 
@@ -14,6 +15,18 @@ class ReviewService:
 
     def list_applications(self):
         return self.repository.list_applications()
+
+    def review_context(self):
+        applications = self.list_applications()
+        students = {
+            student.id: student
+            for student in self.db.exec(select(Student)).all()
+        }
+        companies = {
+            company.id: company
+            for company in self.db.exec(select(Company)).all()
+        }
+        return applications, students, companies
 
     def decide(
         self,
