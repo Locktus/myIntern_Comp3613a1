@@ -265,7 +265,7 @@ One named workflow at a time. Include verify notes and polish / model revisions
 
 Phase 6. Public Render URL (not localhost). Markers open this to mark the three workflows.
 
-https://
+https://faststarter-ekp8.onrender.com/
 
 ## Logins
 
