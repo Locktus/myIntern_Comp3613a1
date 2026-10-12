@@ -93,31 +93,43 @@ def cmd_seed(args: argparse.Namespace) -> None:
             Company(
                 name="ABC Technologies Ltd.",
                 offered_position="Software Development Intern",
+                position_description="Support web application development, testing, and technical documentation.",
                 industry="Technology",
                 location="Kingston",
                 available_positions=3,
                 description="A technology company focused on innovative software solutions.",
                 resume_instructions="Include your technical skills, projects, and relevant coursework.",
+                contact_email="careers@abctechnologies.example",
+                contact_phone="(876) 555-0101",
+                address="12 Technology Drive, Kingston",
                 status="available",
             ),
             Company(
                 name="Caribbean Business Services",
                 offered_position="Business Administration Intern",
+                position_description="Assist with client coordination, reporting, and day-to-day business operations.",
                 industry="Business Services",
                 location="Bridgetown",
                 available_positions=2,
                 description="A regional business services firm supporting clients across the Caribbean.",
                 resume_instructions="Highlight communication, organization, and customer-service experience.",
+                contact_email="careers@caribbeanbusiness.example",
+                contact_phone="(246) 555-0102",
+                address="45 Broad Street, Bridgetown",
                 status="available",
             ),
             Company(
                 name="Island Finance Group",
                 offered_position="Finance Intern",
+                position_description="Support financial reporting, spreadsheet analysis, and research tasks.",
                 industry="Finance",
                 location="Kingston",
                 available_positions=0,
                 description="A finance organization offering exposure to analysis and reporting.",
                 resume_instructions="Include quantitative skills, finance coursework, and spreadsheet experience.",
+                contact_email="talent@islandfinance.example",
+                contact_phone="(876) 555-0103",
+                address="8 Harbour Street, Kingston",
                 status="full",
             ),
         ]
@@ -131,8 +143,12 @@ def cmd_seed(args: argparse.Namespace) -> None:
                 existing.industry = company.industry
                 existing.location = company.location
                 existing.available_positions = company.available_positions
+                existing.position_description = company.position_description
                 existing.description = company.description
                 existing.resume_instructions = company.resume_instructions
+                existing.contact_email = company.contact_email
+                existing.contact_phone = company.contact_phone
+                existing.address = company.address
                 existing.status = company.status
         session.commit()
 

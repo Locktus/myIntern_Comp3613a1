@@ -41,5 +41,8 @@ class CompanyService:
         )
         return company, application
 
+    def get_company(self, company_id: int):
+        return CompanyRepository(self.db).get_by_id(company_id)
+
     def filter_options(self) -> tuple[list[str], list[str]]:
         return CompanyRepository(self.db).filter_options()

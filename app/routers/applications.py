@@ -1,4 +1,4 @@
-from fastapi import File, Form, Request, UploadFile
+from fastapi import File, Form, HTTPException, Request, UploadFile, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from app.dependencies.auth import AuthDep
@@ -16,6 +16,11 @@ async def submit_application(
     company_id: int = Form(...),
     resume: UploadFile = File(...),
 ):
+    if user.role == "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admins cannot submit applications.",
+        )
     # STUDENT CHECKPOINT: create the service and delegate submission rules.
     service = ApplicationService(db)
     application, was_duplicate = await service.submit(

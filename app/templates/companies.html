@@ -56,15 +56,12 @@
             <h2 class="h5 mb-1">{{ company.name }}</h2>
             <p class="text-muted mb-1">{{ company.industry }} · {{ company.location }}</p>
             <p class="mb-2">{{ company.offered_position }}</p>
+            <p class="small text-muted mb-2">{{ company.description }}</p>
             <span class="badge text-bg-{{ 'success' if company.status == 'available' else 'secondary' }}">
               {% if company.status == 'available' %}{{ company.available_positions }} available positions{% else %}Full{% endif %}
             </span>
           </div>
-          {% if company.status == 'available' %}
-          <a class="btn btn-outline-primary align-self-center" href="{{ url_for('application_form', company_id=company.id) }}">View details &amp; apply</a>
-          {% else %}
-          <span class="text-muted small align-self-center">No current openings</span>
-          {% endif %}
+          <a class="btn btn-outline-primary align-self-center" href="{{ url_for('company_details', company_id=company.id) }}">View details</a>
         </div>
       </article>
     </div>

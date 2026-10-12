@@ -1,0 +1,32 @@
+{% extends "authenticated-base.html" %}
+{% block title %}Profile | MyIntern{% endblock %}
+
+{% block subpage_content %}
+<div class="container-fluid py-2">
+  <div class="mb-4">
+    <p class="text-uppercase small fw-semibold text-primary mb-1">Account</p>
+    <h1 class="h3 mb-1">My profile</h1>
+    <p class="text-muted mb-0">Your account information and access details.</p>
+  </div>
+  <div class="card border-0 shadow-sm" style="max-width: 720px;">
+    <div class="card-body p-4">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
+          <span class="material-symbols-outlined">person</span>
+        </div>
+        <div>
+          <h2 class="h5 mb-1">{{ user.username }}</h2>
+          <span class="badge text-bg-secondary">{{ 'Administrator' if user.role == 'admin' else 'Student' }}</span>
+        </div>
+      </div>
+      <dl class="row mb-0">
+        <dt class="col-sm-4 text-muted">Name</dt><dd class="col-sm-8">{{ user.username }}</dd>
+        <dt class="col-sm-4 text-muted">Username</dt><dd class="col-sm-8">{{ user.username }}</dd>
+        <dt class="col-sm-4 text-muted">Email</dt><dd class="col-sm-8">{{ user.email }}</dd>
+        <dt class="col-sm-4 text-muted">Role</dt><dd class="col-sm-8">{{ 'Administrator' if user.role == 'admin' else 'Student' }}</dd>
+        <dt class="col-sm-4 text-muted">Account ID</dt><dd class="col-sm-8 mb-0">{{ user.id }}</dd>
+      </dl>
+    </div>
+  </div>
+</div>
+{% endblock %}

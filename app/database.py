@@ -48,6 +48,10 @@ def _add_company_columns_for_existing_databases() -> None:
         "industry": "VARCHAR DEFAULT 'General'",
         "location": "VARCHAR DEFAULT 'Caribbean'",
         "available_positions": "INTEGER DEFAULT 0",
+        "position_description": "VARCHAR DEFAULT ''",
+        "contact_email": "VARCHAR DEFAULT ''",
+        "contact_phone": "VARCHAR DEFAULT ''",
+        "address": "VARCHAR DEFAULT ''",
     }
     existing = {
         column["name"] for column in inspect(engine).get_columns("company")

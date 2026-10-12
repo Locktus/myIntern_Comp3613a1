@@ -125,11 +125,15 @@ erDiagram
     int id PK
     string name
     string offered_position
+    string position_description
     string industry
     string location
     int available_positions
     string description
     string resume_instructions
+    string contact_email
+    string contact_phone
+    string address
     string status
   }
 
@@ -266,8 +270,12 @@ administrators.
 Company discovery now matches the storyboard more closely with industry and
 location filters, available-position counts, and richer company cards. Existing
 Render databases are upgraded non-destructively at startup with the new
-company columns. Admin review cards now show the student's name, company, and
-position rather than only database IDs.
+company columns. Company detail pages now include the company description,
+position description, address, email, and phone. Admins can browse these
+details but are redirected away from student-only application screens.
+Both roles have a profile page showing account identity, username, email,
+role, and account ID. Admin review cards now show the student's name, company,
+and position rather than only database IDs.
 
 One named workflow at a time. Include verify notes and polish / model revisions
 (Phase 5). Do not treat the first build as final.

@@ -10,11 +10,15 @@ class Company(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     offered_position: str
+    position_description: str = ""
     industry: str = "General"
     location: str = "Caribbean"
     available_positions: int = 0
     description: str
     resume_instructions: str
+    contact_email: str = ""
+    contact_phone: str = ""
+    address: str = ""
     status: str = "available"
 
 

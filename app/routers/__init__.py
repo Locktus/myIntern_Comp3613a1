@@ -27,4 +27,5 @@ from . import (
     applications,
     admin_applications,
     my_applications,
+    profile,
 )

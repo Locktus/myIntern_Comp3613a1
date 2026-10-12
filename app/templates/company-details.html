@@ -1,0 +1,55 @@
+{% extends "authenticated-base.html" %}
+{% block title %}{{ company.name }} | MyIntern{% endblock %}
+
+{% block subpage_content %}
+<div class="container-fluid py-2">
+  <a class="small text-decoration-none" href="{{ url_for('companies_view') }}">← Back to companies</a>
+  <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 my-4">
+    <div>
+      <p class="text-uppercase small fw-semibold text-primary mb-1">{{ company.industry }}</p>
+      <h1 class="h3 mb-1">{{ company.name }}</h1>
+      <p class="text-muted mb-0">{{ company.location }} · {{ company.offered_position }}</p>
+    </div>
+    {% if company.status == 'available' %}
+    <span class="badge text-bg-success">{{ company.available_positions }} available positions</span>
+    {% else %}
+    <span class="badge text-bg-secondary">Currently full</span>
+    {% endif %}
+  </div>
+  <div class="row g-3">
+    <div class="col-lg-8">
+      <section class="card border-0 shadow-sm mb-3">
+        <div class="card-body p-4">
+          <h2 class="h5">About the company</h2>
+          <p>{{ company.description }}</p>
+          <h2 class="h5 mt-4">Position offered</h2>
+          <p class="fw-semibold mb-1">{{ company.offered_position }}</p>
+          <p class="mb-0">{{ company.position_description or 'Position details are available from the company.' }}</p>
+        </div>
+      </section>
+      {% if user.role != 'admin' and company.status == 'available' %}
+      <a class="btn btn-primary" href="{{ url_for('application_form', company_id=company.id) }}">Apply for this position</a>
+      {% elif user.role == 'admin' %}
+      <div class="alert alert-info mb-0">Admins can view company information but cannot apply.</div>
+      {% else %}
+      <div class="alert alert-warning mb-0">This company is currently full and cannot accept applications.</div>
+      {% endif %}
+    </div>
+    <div class="col-lg-4">
+      <section class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h2 class="h5">Company information</h2>
+          <dl class="mb-0">
+            <dt class="small text-muted mt-3">Address</dt>
+            <dd>{{ company.address or 'Not provided' }}</dd>
+            <dt class="small text-muted">Email</dt>
+            <dd>{{ company.contact_email or 'Not provided' }}</dd>
+            <dt class="small text-muted">Phone</dt>
+            <dd class="mb-0">{{ company.contact_phone or 'Not provided' }}</dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %}
