@@ -23,17 +23,25 @@ class ApplicationService:
         student_email: str,
         company_id: int,
         resume: UploadFile,
-    ) -> Application:
+    ) -> tuple[Application, bool]:
         company = self.db.get(Company, company_id)
         if company is None:
             raise HTTPException(status_code=404, detail="Company not found")
 
         repository = ApplicationRepository(self.db)
-        if repository.active_for_student_company(student_id, company_id):
-            raise HTTPException(
-                status_code=409,
-                detail="You already have an active application for this company.",
+        existing_application = repository.active_for_student_company(
+            student_id, company_id
+        )
+        if existing_application:
+            existing_application.status = "rejected"
+            existing_application.feedback = (
+                "This application was automatically rejected because an active "
+                "application already existed for this company."
             )
+            self.db.add(existing_application)
+            self.db.commit()
+            self.db.refresh(existing_application)
+            return existing_application, True
 
         student = self.db.get(Student, student_id)
         if student is None:
@@ -61,4 +69,4 @@ class ApplicationService:
             status=status,
             application_reference=f"APP-{uuid4().hex[:8].upper()}",
         )
-        return repository.create(application)
+        return repository.create(application), False
