@@ -1,9 +1,39 @@
 {% extends "authenticated-base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Student dashboard | MyIntern{% endblock %}
 
 {% block subpage_content %}
 <div class="container-fluid py-2">
-  <h1 class="h4 mb-2">Home</h1>
-  <p class="text-muted mb-0">Workflow screens replace this shell in Phase 5 implement.</p>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+      <p class="text-uppercase small fw-semibold text-primary mb-1">Student dashboard</p>
+      <h1 class="h3 mb-1">Welcome back, {{ user.username }}</h1>
+      <p class="text-muted mb-0">Find an opportunity and keep your applications moving.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ url_for('companies_view') }}">Explore companies</a>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3"><div class="card border-0 shadow-sm h-100"><div class="card-body"><p class="text-muted small mb-1">Open companies</p><p class="display-6 fw-semibold mb-0">{{ available_companies }}</p></div></div></div>
+    <div class="col-6 col-xl-3"><div class="card border-0 shadow-sm h-100"><div class="card-body"><p class="text-muted small mb-1">My applications</p><p class="display-6 fw-semibold mb-0">{{ application_count }}</p></div></div></div>
+    <div class="col-6 col-xl-3"><div class="card border-0 shadow-sm h-100"><div class="card-body"><p class="text-muted small mb-1">In progress</p><p class="display-6 fw-semibold mb-0">{{ pending_count }}</p></div></div></div>
+    <div class="col-6 col-xl-3"><div class="card border-0 shadow-sm h-100"><div class="card-body"><p class="text-muted small mb-1">Approved</p><p class="display-6 fw-semibold text-success mb-0">{{ approved_count }}</p></div></div></div>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">Recent applications</h2>
+        <a class="small" href="{{ url_for('my_applications') }}">View all</a>
+      </div>
+      {% for application in recent_applications %}
+      <div class="d-flex justify-content-between align-items-center border-top py-3">
+        <div><strong>{{ application.application_reference }}</strong><div class="small text-muted">Submitted {{ application.submitted_at.strftime('%d %b %Y') }}</div></div>
+        <span class="badge text-bg-{% if application.status == 'approved' %}success{% elif application.status == 'changes_requested' %}warning{% elif application.status == 'rejected' %}danger{% else %}secondary{% endif %}">{{ application.status|replace('_', ' ')|capitalize }}</span>
+      </div>
+      {% else %}
+      <p class="text-muted mb-0">No applications yet. Start by exploring participating companies.</p>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 {% endblock %}

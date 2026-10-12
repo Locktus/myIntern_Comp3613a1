@@ -232,6 +232,16 @@ filter flow, company detail and resume instructions, resume upload and
 persistence, admin approve/request-changes/reject decisions, decision
 revision, status-color updates, and student feedback visibility.
 
+### Dashboard polish
+
+The student home now provides a MyIntern dashboard with open-company,
+application, in-progress, and approved counts, recent applications, and a
+direct action to explore companies. The admin home now provides application
+totals, needs-attention/approved/rejected counts, recent submissions, open
+company positions, and a direct review-queue action. Navigation now routes
+each role to its own dashboard and hides student-only tracking links from
+administrators.
+
 One named workflow at a time. Include verify notes and polish / model revisions
 (Phase 5). Do not treat the first build as final.
 

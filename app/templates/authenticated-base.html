@@ -81,12 +81,13 @@
 
         <ul class="nav nav-pills flex-column gap-2 flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center {{ 'active' if request.url.path.startswith('/app') }}"
-                   href="{{ url_for('user_home_view') }}">
+                <a class="nav-link d-flex align-items-center {{ 'active' if request.url.path.startswith('/admin') or request.url.path.startswith('/app') }}"
+                   href="{{ url_for('admin_home_view' if user.role == 'admin' else 'user_home_view') }}">
                     <span class="material-symbols-outlined me-2">home</span>
                     Home
                 </a>
             </li>
+            {% if user.role != 'admin' %}
             <li class="nav-item">
                 <a class="nav-link d-flex align-items-center {{ 'active' if request.url.path.startswith('/companies') }}"
                    href="{{ url_for('companies_view') }}">
@@ -94,6 +95,7 @@
                     Companies
                 </a>
             </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link d-flex align-items-center {{ 'active' if request.url.path.startswith('/my-applications') }}"
                    href="{{ url_for('my_applications') }}">
