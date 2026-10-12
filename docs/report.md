@@ -185,9 +185,10 @@ and company-browse screen.
 ### Browse Participating Companies (Student)
 
 Implemented the Company SQLModel, repository filtering by company name and
-availability, service delegation, authenticated `/companies` route, navigation
-link, and storyboard-aligned company cards. Full companies remain visible but
-do not expose an apply action.
+availability, industry, and location, service delegation, authenticated
+`/companies` route, navigation link, and storyboard-aligned company cards. Full
+companies remain visible but do not expose an apply action. Available-position
+counts are shown on company cards.
 
 Verification: Pylance reports no errors in the new model, repository, service,
 or route files. Student verification of the running UI is still required
@@ -214,6 +215,10 @@ workflow can be exercised after `python manage.py init`.
 The detail/application view now persists and displays the student's latest
 uploaded resume, company description, position, and resume submission
 instructions when revisited.
+If a student submits again while an active application already exists, the
+existing application is automatically rejected, the reason is saved as
+feedback, and the student returns to the same page with a warning notification
+instead of seeing an error screen.
 
 ### Approve Application (Admin)
 
