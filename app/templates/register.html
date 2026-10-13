@@ -9,9 +9,19 @@
     <p class="auth-tagline">Create your student account</p>
 
     <form method="POST" action="{{ url_for('register_view') }}">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label" for="first_name">First name</label>
+          <input class="form-control" type="text" id="first_name" name="first_name" required autofocus>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label" for="last_name">Last name</label>
+          <input class="form-control" type="text" id="last_name" name="last_name" required>
+        </div>
+      </div>
       <div class="mb-3">
         <label class="form-label" for="username">Username</label>
-        <input class="form-control" type="text" id="username" name="username" required autofocus>
+        <input class="form-control" type="text" id="username" name="username" required>
       </div>
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>

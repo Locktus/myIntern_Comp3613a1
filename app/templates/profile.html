@@ -15,12 +15,12 @@
           <span class="material-symbols-outlined">person</span>
         </div>
         <div>
-          <h2 class="h5 mb-1">{{ user.username }}</h2>
+          <h2 class="h5 mb-1">{{ (user.first_name ~ ' ' ~ user.last_name).strip() or user.username }}</h2>
           <span class="badge text-bg-secondary">{{ 'Administrator' if user.role == 'admin' else 'Student' }}</span>
         </div>
       </div>
       <dl class="row mb-0">
-        <dt class="col-sm-4 text-muted">Name</dt><dd class="col-sm-8">{{ user.username }}</dd>
+        <dt class="col-sm-4 text-muted">Name</dt><dd class="col-sm-8">{{ (user.first_name ~ ' ' ~ user.last_name).strip() or user.username }}</dd>
         <dt class="col-sm-4 text-muted">Username</dt><dd class="col-sm-8">{{ user.username }}</dd>
         <dt class="col-sm-4 text-muted">Email</dt><dd class="col-sm-8">{{ user.email }}</dd>
         <dt class="col-sm-4 text-muted">Role</dt><dd class="col-sm-8">{{ 'Administrator' if user.role == 'admin' else 'Student' }}</dd>

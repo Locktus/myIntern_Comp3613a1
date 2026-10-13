@@ -18,6 +18,8 @@ async def register_view(request: Request):
 # Action route (performs an action)
 @router.post('/register', response_class=HTMLResponse, status_code=status.HTTP_201_CREATED)
 def signup_user(request:Request, db:SessionDep, 
+    first_name: str = Form(),
+    last_name: str = Form(),
     username: str = Form(),
     email: str = Form(),
     password: str = Form(),
@@ -25,7 +27,9 @@ def signup_user(request:Request, db:SessionDep,
     user_repo = UserRepository(db)
     auth_service = AuthService(user_repo)
     try:
-        user = auth_service.register_user(username, email, password)
+        user = auth_service.register_user(
+            first_name, last_name, username, email, password
+        )
         flash(request, "Registration completed! Sign in now!")
         return RedirectResponse(url=request.url_for("login_view"), status_code=status.HTTP_303_SEE_OTHER)
     except Exception as e:

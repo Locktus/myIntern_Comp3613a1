@@ -39,7 +39,23 @@ def create_db_and_tables() -> None:
     import app.models  # noqa: F401
 
     SQLModel.metadata.create_all(engine)
+    _add_user_columns_for_existing_databases()
     _add_company_columns_for_existing_databases()
+
+
+def _add_user_columns_for_existing_databases() -> None:
+    """Add profile fields without dropping existing user accounts."""
+    columns = {
+        "first_name": "VARCHAR DEFAULT ''",
+        "last_name": "VARCHAR DEFAULT ''",
+    }
+    existing = {column["name"] for column in inspect(engine).get_columns("user")}
+    with engine.begin() as connection:
+        for name, definition in columns.items():
+            if name not in existing:
+                connection.execute(
+                    text(f'ALTER TABLE "user" ADD COLUMN {name} {definition}')
+                )
 
 
 def _add_company_columns_for_existing_databases() -> None:

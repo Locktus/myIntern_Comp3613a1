@@ -25,7 +25,7 @@ async def submit_application(
     service = ApplicationService(db)
     application, was_duplicate = await service.submit(
         student_id=user.id,
-        student_name=user.username,
+        student_name=f"{user.first_name} {user.last_name}".strip(),
         student_email=str(user.email),
         company_id=company_id,
         resume=resume,

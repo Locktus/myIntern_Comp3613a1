@@ -5,6 +5,8 @@ class SigninRequest(SQLModel):
     password: str
 
 class SignupRequest(SQLModel):
+    first_name: str
+    last_name: str
     username: str
     email: str
     password: str

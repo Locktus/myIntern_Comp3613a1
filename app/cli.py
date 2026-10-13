@@ -64,15 +64,15 @@ def cmd_seed(args: argparse.Namespace) -> None:
     ensure_db_and_tables()
 
     demo_users = [
-        ("bob", "bob@example.com", "bobpass", "regular_user"),
-        ("admin", "admin@example.com", "adminpass", "admin"),
+        ("Bob", "Student", "bob", "bob@example.com", "bobpass", "regular_user"),
+        ("System", "Administrator", "admin", "admin@example.com", "adminpass", "admin"),
     ]
 
     created = 0
     skipped = 0
     with get_cli_session() as session:
         repo = UserRepository(session)
-        for username, email, password, role in demo_users:
+        for first_name, last_name, username, email, password, role in demo_users:
             if repo.get_by_username(username):
                 print(f"  skip  {username} (already exists)")
                 skipped += 1
@@ -80,6 +80,8 @@ def cmd_seed(args: argparse.Namespace) -> None:
             payload_cls = AdminCreate if role == "admin" else RegularUserCreate
             repo.create(
                 payload_cls(
+                    first_name=first_name,
+                    last_name=last_name,
                     username=username,
                     email=email,
                     password=encrypt_password(password),

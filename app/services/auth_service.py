@@ -14,8 +14,17 @@ class AuthService:
         access_token = create_access_token(data={"sub": f"{user.id}", "role": user.role})
         return access_token
 
-    def register_user(self, username: str, email: str, password: str):
+    def register_user(
+        self,
+        first_name: str,
+        last_name: str,
+        username: str,
+        email: str,
+        password: str,
+    ):
         new_user = RegularUserCreate(
+            first_name=first_name.strip(),
+            last_name=last_name.strip(),
             username=username, 
             email=email, 
             password=encrypt_password(password)
