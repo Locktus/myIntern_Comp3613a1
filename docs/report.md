@@ -300,6 +300,8 @@ Every account a marker needs, including extra users you added. Starter accounts:
 
 ## YouTube URL
 
+https://youtu.be/WOEmvxcZakQ
+
 ## Session transcripts
 
 Filled when the Guide builds the report: the agent writes chat markdown into `docs/transcripts/`; `python manage.py report` packages them.
