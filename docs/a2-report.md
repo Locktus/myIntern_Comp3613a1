@@ -1,8 +1,16 @@
+<!-- student-build:skill-integrity
+status: pass
+root: e84cd692d0b85eefe546385661958c27d07e8be6c5176a82012f68ccff5c8beb
+expected_root: e84cd692d0b85eefe546385661958c27d07e8be6c5176a82012f68ccff5c8beb
+mismatches: none
+-->
+
 # COMP 3613 Assignment 2 Report
 
 ## Name and ID
 
-Name: Kris Partapsingh  Student ID: 816045792
+Name: Kris Partapsingh  
+Student ID: 816045792
 
 ## Project description
 
@@ -112,25 +120,25 @@ Tester runs each task in the browser against the running app (`python manage.py 
 
 ### UAT results (complete after testing)
 
-Tester name: ____________  Date: ____________  Build/commit: ____________
+Tester name: Kris Partapsingh  Date: 2026-11-10  Build/commit: b5c1ebc
 
 | ID | Result (Pass/Fail) | Observed behaviour / notes | Screenshot |
 |----|--------------------|----------------------------|------------|
-| UAT-01 |  |  |  |
-| UAT-02 |  |  |  |
-| UAT-03 |  |  |  |
-| UAT-04 |  |  |  |
-| UAT-05 |  |  |  |
-| UAT-06 |  |  |  |
-| UAT-07 |  |  |  |
-| UAT-08 |  |  |  |
-| UAT-09 |  |  |  |
-| UAT-10 |  |  |  |
-| UAT-11 |  |  |  |
-| UAT-12 |  |  |  |
-| UAT-13 |  |  |  |
-| UAT-14 |  |  |  |
-| UAT-15 |  |  |  |
+| UAT-01 | Pass | Registration and sign-in completed; student home page displayed. | [UAT1_1](evidence/screenshots/uat/UAT1_1.png), [UAT1_2](evidence/screenshots/uat/UAT1_2.png), [UAT1_3](evidence/screenshots/uat/UAT1_3.png) |
+| UAT-02 | Pass | Companies page listed all seeded companies and availability states. | [UAT2](evidence/screenshots/uat/UAT2.png) |
+| UAT-03 | Pass | Search and availability/industry/location filters narrowed and restored results. | [UAT3](evidence/screenshots/uat/UAT3.png) |
+| UAT-04 | Pass | Company detail page showed position, description, contact details, and apply action. | [UAT4](evidence/screenshots/uat/UAT4.png) |
+| UAT-05 | Pass | Full company remained visible without an apply action. | [UAT5](evidence/screenshots/uat/UAT5.png) |
+| UAT-06 | Pass | Application submission produced an application reference and pending status. | [UAT6_1](evidence/screenshots/uat/UAT6_1.png), [UAT6_2](evidence/screenshots/uat/UAT6_2.png) |
+| UAT-07 | Pass | Duplicate active application was rejected with a warning and the original remained unchanged. | [UAT7](evidence/screenshots/uat/UAT7.png) |
+| UAT-08 | Pass | Invalid resume extension was refused with an explanatory validation message. | [UAT8](evidence/screenshots/uat/UAT8.png) |
+| UAT-09 | Pass | My Applications displayed company, status, date, and reference. | [UAT9](evidence/screenshots/uat/UAT9.png) |
+| UAT-10 | Pass | Admin requested changes and saved feedback on the application. | [UAT10](evidence/screenshots/uat/UAT10.png) |
+| UAT-11 | Pass | Student viewed the changes-requested status and administrator feedback. | [UAT11](evidence/screenshots/uat/UAT11.png) |
+| UAT-12 | Pass | Admin revised the decision to approved and updated feedback. | [UAT12](evidence/screenshots/uat/UAT12.png) |
+| UAT-13 | Pass | Empty feedback was rejected and the application decision remained unchanged. | [UAT13](evidence/screenshots/uat/UAT13.png) |
+| UAT-14 | Pass | Anonymous and student access restrictions showed the expected sign-in/access-denied pages. | [UAT14_1](evidence/screenshots/uat/UAT14_1.png), [UAT14_2](evidence/screenshots/uat/UAT14_2.png) |
+| UAT-15 | Pass | Logging out returned the user to login and protected pages required authentication. | [UAT15](evidence/screenshots/uat/UAT15.png) |
 
 
 
@@ -224,11 +232,25 @@ All run through `TestClient` against a fresh in-memory database seeded with the 
 | IT-33 | HTML | GET /logout | Logged in | 303 to `/login`; cookie cleared |
 | IT-34 | HTML | GET /health | No login | 200 `{"ok": true}` |
 
+## 4. API Test Plan (Postman)
+
+The Postman collection runs in dependency order and contains 28 requests with
+57 assertions. PM-15 creates the application and stores `applicationId` before
+the dependent application and admin requests execute.
+
+| ID range | Coverage | Expected result |
+|----------|----------|-----------------|
+| PM-01–PM-08 | Health and authentication | Health succeeds; registration, login, token, and unauthenticated checks pass. |
+| PM-09–PM-14 | Company listing and access | Listing, search, validation, detail, missing-resource, and unauthorized checks pass. |
+| PM-15–PM-20 | Application submission | Pending, duplicate, full-company, invalid-file, own-list, and admin-forbidden checks pass. |
+| PM-21–PM-26 | Admin decisions and student status | Role checks, request-changes, empty-feedback rejection, approval, and status visibility pass. |
+| PM-27–PM-28 | User administration | Admin listing excludes passwords and students are denied. |
+
 
 
 ## Implementation
 
-Repository link: [add repository URL]
+Repository link: https://github.com/Locktus/myIntern_Comp3613a1
 
 Test files:
 - `tests/unit/test_security.py`
@@ -239,14 +261,23 @@ Test files:
 
 Postman collection: `postman/MyIntern_API.postman_collection.json`
 
+## Deployed app
+
+https://faststarter-ekp8.onrender.com/
+
+## Logins
+
+- `bob` / `bobpass` — regular user
+- `admin` / `adminpass` — administrator
+
 ## Reports
 
 - Unit test run screenshot:
-  ![Unit test run](evidence/unit-tests.svg)
+  ![Unit test run](evidence/screenshots/unit_tests.png)
 - Integration test run screenshot:
-  ![Integration test run](evidence/integration-tests.svg)
+  ![Integration test run](evidence/screenshots/integration_tests.png)
 - Postman/Newman run screenshot:
-  ![Postman/Newman run](evidence/newman-run.svg)
+  ![Postman/Newman run](evidence/screenshots/postman_runner.png)
 
 Verification results:
 
@@ -257,4 +288,136 @@ Verification results:
 
 ## UAT results
 
-Complete the results table in [`test-plan.md`](test-plan.md) after manually walking through the 15 UAT tasks.
+The completed results table above records all 15 UAT tasks. The individual
+browser captures are included below as the submission evidence appendix.
+
+### UAT evidence
+
+![UAT-01 registration](evidence/screenshots/uat/UAT1_1.png)
+![UAT-01 sign-in](evidence/screenshots/uat/UAT1_2.png)
+![UAT-01 student home](evidence/screenshots/uat/UAT1_3.png)
+![UAT-02 companies](evidence/screenshots/uat/UAT2.png)
+![UAT-03 filters](evidence/screenshots/uat/UAT3.png)
+![UAT-04 company details](evidence/screenshots/uat/UAT4.png)
+![UAT-05 full company](evidence/screenshots/uat/UAT5.png)
+![UAT-06 application](evidence/screenshots/uat/UAT6_1.png)
+![UAT-06 confirmation](evidence/screenshots/uat/UAT6_2.png)
+![UAT-07 duplicate application](evidence/screenshots/uat/UAT7.png)
+![UAT-08 invalid resume](evidence/screenshots/uat/UAT8.png)
+![UAT-09 applications](evidence/screenshots/uat/UAT9.png)
+![UAT-10 request changes](evidence/screenshots/uat/UAT10.png)
+![UAT-11 feedback](evidence/screenshots/uat/UAT11.png)
+![UAT-12 approval](evidence/screenshots/uat/UAT12.png)
+![UAT-13 empty feedback](evidence/screenshots/uat/UAT13.png)
+![UAT-14 anonymous access](evidence/screenshots/uat/UAT14_1.png)
+![UAT-14 student access](evidence/screenshots/uat/UAT14_2.png)
+![UAT-15 logout](evidence/screenshots/uat/UAT15.png)
+
+<!-- student-judge:competency -->
+## Session transcripts
+
+Filled when the Guide builds the report: the agent writes chat markdown into `docs/transcripts/`; `python manage.py report` packages them.
+
+Guide packaged **2** chat(s) in `docs/transcripts/` (and `docs/transcripts.zip`).
+
+Index: [docs/transcripts/INDEX.md](transcripts/INDEX.md)
+
+- [`admin-profile-polish`](transcripts/admin-profile-polish.md)
+- [`main-build-session`](transcripts/main-build-session.md)
+
+## Competency (student-judge)
+
+Filled by Guide from the student-judge run when this report was built.
+
+**Judged at:** 2026-11-10T13:45:00-04:00  
+**Evidence pass:** re-read current report, diagrams, wireframe, test plans, two Guide transcript markdown files, and current evidence files; prior judge.md ignored
+
+**Student / session:** Kris Partapsingh / COMP 3613 Internship Platform  
+**Artifact:** Guide chats for this project and the Guide-written `docs/transcripts` dump  
+**Phases in evidence:** 1–6 (COMP 3613; Phase 5 polish, Phase 6 deploy)
+
+## Totals
+
+| | Count / value |
+|--|--|
+| Metrics on rubric | 12 (M1–M12) |
+| N/A (excluded) | 0 |
+| Metrics scored | 12 |
+| Scoreable max | 48 |
+| Awarded total | 44 / 48 |
+| **Overall (avg of scored)** | **3.7 / 4** |
+| Impression mark | 19 / 20 |
+
+## Scorecard
+
+| ID | Metric | Score / 4 | In avg | Evidence |
+|----|--------|----------:|:------:|----------|
+| M1 | Phase discipline | 4 | yes | “Start Phase 2”, “Start Phase 3”, “Start Phase 4”, then “Start Phase 5”, followed by Phase 6 and later polish. |
+| M2 | Problem framing | 4 | yes | The report records three named workflows, shared status/feedback, entity properties, business rules, wireframes, and the MyIntern visual direction. |
+| M3 | Decision ownership | 4 | yes | “Update the use case, workflow, and entity diagram after Phase 5” and later targeted workflow and navigation decisions show ownership of the product decisions. |
+| M4 | Artefact-before-code | 4 | yes | “Confirm the wireframe folder and report ERD issue” shows the student engaged the required artefacts before implementation was treated as complete. |
+| M5 | Verification habit | 4 | yes | “Polish dashboard placeholders and remaining wireframe differences” plus the current UAT evidence table show observation followed by further correction. |
+| M6 | Assignment fit | 4 | yes | The current report documents wireframe-aligned workflows, layered routes/services/repositories/models, seeded roles, tests, and deployment. |
+| M7 | Slice explanation | 3 | yes | The student gave concrete workflow and mismatch directions; no explicit Phase 5 code-check snippet block is present in the available transcript dump. |
+| M8 | Prompt quality | 4 | yes | Prompts were phase-directed early and became concrete implementation/polish requests such as “Fix duplicate application behavior, admin navigation, report fields, signup profile details, and sidebar labels.” |
+| M9 | Response to pushback | 4 | yes | The student continued with dashboard, profile, company-detail, duplicate-application, navigation, and report refinements rather than accepting the first build. |
+| M10 | Integrity | 4 | yes | No evidence of edited skills, answer-seeking, transcript gaming, or external-LLM paste-back was found; the report skill-integrity marker is pass. |
+| M11 | Provenance continuity | 4 | yes | The implementation remained tied to the Internship Platform workflows, ERD, wireframe storyboard, deployed URL, and later observed mismatches. |
+| M12 | Sincerity trajectory | 3 | yes | The available chats show a consistent progression from phase starts through deployment and repeated polish, but no machine-readable sincerity blocks were available. |
+
+## Strengths
+
+- Clear ownership of three workflows and their edge cases.
+- Strong wireframe-to-implementation continuity.
+- Multiple rounds of concrete verification and polish after the initial build.
+- Current evidence now covers unit, integration, Postman, and all 15 UAT rows.
+- Layered architecture, role-aware behavior, deployment, and non-destructive migrations are documented.
+
+## Gaps (priority order)
+
+1. The available transcript dump does not contain explicit Phase 5 `code-check` snippets, so M7 is not awarded the maximum.
+2. Earlier Guide chats are represented by condensed markdown transcripts rather than complete raw-turn exports; this limits confidence in fine-grained process evidence.
+
+## Phase gate status
+
+| Phase | Status | Note |
+|-------|--------|------|
+| 1 | met | Project and three workflows selected. |
+| 2 | met | Use-case boundaries, shared status, and edge cases documented. |
+| 3 | met | Entities, properties, relationships, and business rules documented. |
+| 4 | met | Student storyboard wireframe is embedded and covers the named workflows. |
+| 5 | met | Theme, implementation, automated checks, UAT evidence, and substantial polish completed. |
+| 6 | met | Public Render URL, marker logins, report fields, and video URL are recorded. |
+
+## Recommended next practice
+
+- Record one thin-route and service/repository code-check snippet for each new workflow so architecture ownership is easier to audit.
+
+## Integrity note
+
+- Clean. No evidence of suspected external assist / paste-back or edited skills.
+
+## Provenance flags
+
+- None.
+
+## Sincerity log summary
+
+- Blocks found: 0 | max round: N/A | min/mean/final confidence: N/A | trend: N/A | cleared: N/A
+
+## Skips
+
+- Skips: 0/3 used.
+
+## Skill integrity
+
+Course skills are hashed at export and compared to `.agents/skills.lock.json`. Do not edit `.agents/skills/`, `.cursor/skills/`, or `AGENTS.md`.
+
+- Status: **pass**
+- Root: `e84cd692d0b85eefe546385661958c27d07e8be6c5176a82012f68ccff5c8beb`
+- none
+## Wireframes
+
+### Internship Platform UI Wireframe Storyboard
+
+![Internship Platform UI Wireframe Storyboard](wireframes/Internship Platform UI Wireframe Storyboard.png)

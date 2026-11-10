@@ -39,25 +39,25 @@ Tester runs each task in the browser against the running app (`python manage.py 
 
 ### UAT results (complete after testing)
 
-Tester name: ____________  Date: ____________  Build/commit: ____________
+Tester name: Kris Partapsingh  Date: 2026-11-10  Build/commit: b5c1ebc
 
 | ID | Result (Pass/Fail) | Observed behaviour / notes | Screenshot |
 |----|--------------------|----------------------------|------------|
-| UAT-01 |  |  |  |
-| UAT-02 |  |  |  |
-| UAT-03 |  |  |  |
-| UAT-04 |  |  |  |
-| UAT-05 |  |  |  |
-| UAT-06 |  |  |  |
-| UAT-07 |  |  |  |
-| UAT-08 |  |  |  |
-| UAT-09 |  |  |  |
-| UAT-10 |  |  |  |
-| UAT-11 |  |  |  |
-| UAT-12 |  |  |  |
-| UAT-13 |  |  |  |
-| UAT-14 |  |  |  |
-| UAT-15 |  |  |  |
+| UAT-01 | Pass | Registration, sign-in, and student home page completed. | `evidence/screenshots/uat/UAT1_1.png`, `UAT1_2.png`, `UAT1_3.png` |
+| UAT-02 | Pass | All seeded companies and availability states displayed. | `evidence/screenshots/uat/UAT2.png` |
+| UAT-03 | Pass | Search and company filters narrowed and restored results. | `evidence/screenshots/uat/UAT3.png` |
+| UAT-04 | Pass | Company details, position, contacts, and apply action displayed. | `evidence/screenshots/uat/UAT4.png` |
+| UAT-05 | Pass | Full company displayed without an apply action. | `evidence/screenshots/uat/UAT5.png` |
+| UAT-06 | Pass | Resume submission produced a reference and pending status. | `evidence/screenshots/uat/UAT6_1.png`, `UAT6_2.png` |
+| UAT-07 | Pass | Duplicate active application was refused. | `evidence/screenshots/uat/UAT7.png` |
+| UAT-08 | Pass | Invalid resume file was refused. | `evidence/screenshots/uat/UAT8.png` |
+| UAT-09 | Pass | Student applications list displayed required fields. | `evidence/screenshots/uat/UAT9.png` |
+| UAT-10 | Pass | Admin requested changes and saved feedback. | `evidence/screenshots/uat/UAT10.png` |
+| UAT-11 | Pass | Student saw the changes-requested status and feedback. | `evidence/screenshots/uat/UAT11.png` |
+| UAT-12 | Pass | Admin revised the decision to approved. | `evidence/screenshots/uat/UAT12.png` |
+| UAT-13 | Pass | Empty decision feedback was rejected. | `evidence/screenshots/uat/UAT13.png` |
+| UAT-14 | Pass | Anonymous and student access restrictions worked. | `evidence/screenshots/uat/UAT14_1.png`, `UAT14_2.png` |
+| UAT-15 | Pass | Logout returned to login and protected pages remained guarded. | `evidence/screenshots/uat/UAT15.png` |
 
 ## 2. Unit Test Plan
 
