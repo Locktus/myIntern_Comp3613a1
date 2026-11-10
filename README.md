@@ -150,6 +150,18 @@ python manage.py run
 
 The app binds `0.0.0.0` and reads `PORT` when Render sets it. Locally it uses `APP_PORT` (default **5000**).
 
+## Testing
+
+Install dependencies with `pip install -r requirements.txt`. Run unit tests
+with `python -m pytest tests/unit -v`, integration tests with
+`python -m pytest tests/integration -v`, or both with `python -m pytest -q`.
+Run by marker with `python -m pytest -m unit -q` or
+`python -m pytest -m integration -q`.
+
+The Postman/Newman collection is documented in
+[postman/README.md](postman/README.md). Tests use a fresh in-memory SQLite
+database and do not modify the application database or upload directory.
+
 ---
 
 ## Deploy (Render MCP)
