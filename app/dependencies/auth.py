@@ -13,15 +13,19 @@ async def get_current_user(request:Request, db:SessionDep)->User:
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    token = request.cookies.get("access_token")
+    authorization = request.headers.get("Authorization", "")
+    token = authorization[7:] if authorization.startswith("Bearer ") else None
+    if not token:
+        token = request.cookies.get("access_token")
 
     if token is None:
         raise credentials_exception
     try:
         payload = jwt.decode(token, get_settings().secret_key, algorithms=[get_settings().jwt_algorithm])
-        user_id = payload.get("sub",None)
-    except InvalidTokenError as e:
-        print("Invalid token error: ", e)
+        user_id = payload.get("sub")
+        if not isinstance(user_id, str) or not user_id.isdigit():
+            raise credentials_exception
+    except InvalidTokenError:
         raise credentials_exception
 
     repo = UserRepository(db)
@@ -47,7 +51,7 @@ async def is_admin(user: User):
 async def is_admin_dep(user: AuthDep):
     if not await is_admin(user):
         raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+                status_code=status.HTTP_403_FORBIDDEN,
                 detail="You are not authorized to access this page",
             )
     return user

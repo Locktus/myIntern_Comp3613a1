@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Access denied{% endblock %}
+{% block content %}
+<main class="container py-5">
+    <h1>Access denied</h1>
+    <p>You do not have permission to access this page.</p>
+    <a href="{{ url_for('index_view') }}">Return home</a>
+</main>
+{% endblock %}

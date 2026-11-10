@@ -20,12 +20,21 @@ async def companies_view(
 ):
     # STUDENT CHECKPOINT: create the service and call it with both filters.
     service = CompanyService(db)
-    companies = service.list_companies(
-        search=search,
-        availability=availability,
-        industry=industry,
-        location=location,
-    )
+    try:
+        companies = service.list_companies(
+            search=search,
+            availability=availability,
+            industry=industry,
+            location=location,
+        )
+    except ValueError as exc:
+        flash(request, str(exc), "warning")
+        companies = service.list_companies(
+            search=search,
+            availability=None,
+            industry=industry,
+            location=location,
+        )
     industries, locations = service.filter_options()
     return templates.TemplateResponse(
         request=request,

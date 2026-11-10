@@ -43,6 +43,11 @@ class ReviewService:
             raise HTTPException(status_code=404, detail="Application not found")
         if decision not in {"approved", "changes_requested", "rejected"}:
             raise HTTPException(status_code=400, detail="Invalid application decision")
+        if decision in {"rejected", "changes_requested"} and not feedback.strip():
+            raise HTTPException(
+                status_code=400,
+                detail="Feedback is required for rejected or changes-requested decisions.",
+            )
 
         if self.db.get(Admin, admin_id) is None:
             self.db.add(Admin(admin_id=admin_id, name=admin_name, email=admin_email))

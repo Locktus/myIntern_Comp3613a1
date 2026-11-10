@@ -23,13 +23,22 @@ async def submit_application(
         )
     # STUDENT CHECKPOINT: create the service and delegate submission rules.
     service = ApplicationService(db)
-    application, was_duplicate = await service.submit(
-        student_id=user.id,
-        student_name=f"{user.first_name} {user.last_name}".strip(),
-        student_email=str(user.email),
-        company_id=company_id,
-        resume=resume,
-    )
+    try:
+        application, was_duplicate = await service.submit(
+            student_id=user.id,
+            student_name=f"{user.first_name} {user.last_name}".strip(),
+            student_email=str(user.email),
+            company_id=company_id,
+            resume=resume,
+        )
+    except HTTPException as exc:
+        if exc.status_code == 400:
+            flash(request, str(exc.detail), "danger")
+            return RedirectResponse(
+                url=f"/companies/{company_id}/apply",
+                status_code=303,
+            )
+        raise
     if was_duplicate:
         flash(
             request,

@@ -5,7 +5,7 @@ import uvicorn
 from fastapi import FastAPI, Request, status
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
-from starlette.responses import RedirectResponse
+from starlette.responses import JSONResponse, RedirectResponse
 
 from app.config import get_settings
 from app.routers import api_router, router, static_files, templates
@@ -59,11 +59,31 @@ async def health():
     return {"ok": True}
 
 
+def _wants_json(request: Request) -> bool:
+    return request.url.path.startswith("/api") or "text/html" not in request.headers.get(
+        "accept", ""
+    )
+
+
 @app.exception_handler(status.HTTP_401_UNAUTHORIZED)
 async def unauthorized_redirect_handler(request: Request, exc: Exception):
+    if _wants_json(request):
+        return JSONResponse({"detail": getattr(exc, "detail", str(exc))}, status_code=401)
     return templates.TemplateResponse(
         request=request,
         name="401.html",
+        status_code=401,
+    )
+
+
+@app.exception_handler(status.HTTP_403_FORBIDDEN)
+async def forbidden_handler(request: Request, exc: Exception):
+    if _wants_json(request):
+        return JSONResponse({"detail": getattr(exc, "detail", str(exc))}, status_code=403)
+    return templates.TemplateResponse(
+        request=request,
+        name="403.html",
+        status_code=403,
     )
 
 

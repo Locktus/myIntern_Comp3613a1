@@ -16,6 +16,9 @@ dependencies = []
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-ra"
+markers = ["unit: unit tests", "integration: integration tests"]
 
 [tool.setuptools]
 packages = ["app"]

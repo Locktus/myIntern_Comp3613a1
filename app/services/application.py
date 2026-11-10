@@ -7,6 +7,8 @@ from sqlmodel import Session
 from app.models.internship import Application, Company, Student
 from app.repositories.application import ApplicationRepository
 
+UPLOAD_DIR = Path("app/static/uploads")
+
 
 class ApplicationService:
     def __init__(self, db: Session):
@@ -33,15 +35,20 @@ class ApplicationService:
             student_id, company_id
         )
         if existing_application:
-            existing_application.status = "rejected"
-            existing_application.feedback = (
-                "This application was automatically rejected because an active "
-                "application already existed for this company."
-            )
-            self.db.add(existing_application)
-            self.db.commit()
-            self.db.refresh(existing_application)
             return existing_application, True
+
+        suffix = Path(resume.filename or "").suffix.lower()
+        if suffix not in {".pdf", ".doc", ".docx"}:
+            raise HTTPException(
+                status_code=400,
+                detail="Resume must be a PDF, DOC or DOCX file no larger than 5 MB.",
+            )
+        content = await resume.read()
+        if len(content) > 5 * 1024 * 1024:
+            raise HTTPException(
+                status_code=400,
+                detail="Resume must be a PDF, DOC or DOCX file no larger than 5 MB.",
+            )
 
         student = self.db.get(Student, student_id)
         if student is None:
@@ -54,12 +61,11 @@ class ApplicationService:
             self.db.add(student)
             self.db.commit()
 
-        upload_dir = Path("app/static/uploads")
+        upload_dir = UPLOAD_DIR
         upload_dir.mkdir(parents=True, exist_ok=True)
-        suffix = Path(resume.filename or "").suffix.lower()
         stored_name = f"{uuid4().hex}{suffix}"
         stored_path = upload_dir / stored_name
-        stored_path.write_bytes(await resume.read())
+        stored_path.write_bytes(content)
 
         status = "rejected" if company.status == "full" else "pending"
         application = Application(

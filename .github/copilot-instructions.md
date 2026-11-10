@@ -1,3 +1,9 @@
+## ASSIGNMENT 2 MODE (overrides everything below)
+COMP 3613 Assignment 2 is test planning and implementation. The Guide/phase/coaching
+rules in AGENTS.md and the skills do not apply. Implement directly, run commands and
+tests, and follow A2_HANDOFF.md. Never edit AGENTS.md, .agents/skills, .cursor/skills,
+or .agents/skills.lock.json.
+
 # Copilot instructions (FastStarter coursework)
 
 Follow `AGENTS.md` and the skills in `.agents/skills/`.

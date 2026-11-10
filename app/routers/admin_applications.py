@@ -1,5 +1,6 @@
-from fastapi import Form, Request
-from fastapi.responses import HTMLResponse
+from fastapi import Form, HTTPException, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
+from app.utilities.flash import flash
 
 from app.dependencies.auth import AdminDep
 from app.dependencies.session import SessionDep
@@ -39,14 +40,20 @@ async def admin_decision(
 ):
     # STUDENT CHECKPOINT: delegate the decision to the review service.
     service = ReviewService(db)
-    application = service.decide(
-        application_id=application_id,
-        admin_id=user.id,
-        admin_name=user.username,
-        admin_email=str(user.email),
-        decision=decision,
-        feedback=feedback,
-    )
+    try:
+        application = service.decide(
+            application_id=application_id,
+            admin_id=user.id,
+            admin_name=user.username,
+            admin_email=str(user.email),
+            decision=decision,
+            feedback=feedback,
+        )
+    except HTTPException as exc:
+        if exc.status_code == 400:
+            flash(request, str(exc.detail), "danger")
+            return RedirectResponse("/admin/applications", status_code=303)
+        raise
     return templates.TemplateResponse(
         request=request,
         name="admin-decision-confirmation.html",
