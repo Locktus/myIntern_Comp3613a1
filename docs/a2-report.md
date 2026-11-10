@@ -2,7 +2,7 @@
 
 ## Name and ID
 
-Name: ____________________  Student ID: ____________________
+Name: Kris Partapsingh  Student ID: 816045792
 
 ## Project description
 
