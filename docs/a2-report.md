@@ -241,9 +241,19 @@ Postman collection: `postman/MyIntern_API.postman_collection.json`
 
 ## Reports
 
-- Unit test run screenshot: _[Human: add screenshot]_
-- Integration test run screenshot: _[Human: add screenshot]_
-- Postman/Newman run screenshot: _[Human: add screenshot]_
+- Unit test run screenshot:
+  ![Unit test run](evidence/unit-tests.svg)
+- Integration test run screenshot:
+  ![Integration test run](evidence/integration-tests.svg)
+- Postman/Newman run screenshot:
+  ![Postman/Newman run](evidence/newman-run.svg)
+
+Verification results:
+
+- Unit tests: 42 passed.
+- Integration tests: 34 passed.
+- Full pytest suite: 76 passed.
+- Newman: 28 requests and 57 assertions passed with 0 failures.
 
 ## UAT results
 
