@@ -42,13 +42,6 @@ class ApplicationService:
         if company is None:
             raise HTTPException(status_code=404, detail="Company not found")
 
-        repository = ApplicationRepository(self.db)
-        existing_application = repository.active_for_student_company(
-            student_id, company_id
-        )
-        if existing_application:
-            return existing_application, True
-
         suffix = Path(resume.filename or "").suffix.lower()
         if suffix not in {".pdf", ".doc", ".docx"}:
             raise HTTPException(
@@ -61,6 +54,13 @@ class ApplicationService:
                 status_code=400,
                 detail="Resume must be a PDF, DOC or DOCX file no larger than 5 MB.",
             )
+
+        repository = ApplicationRepository(self.db)
+        existing_application = repository.active_for_student_company(
+            student_id, company_id
+        )
+        if existing_application:
+            return existing_application, True
 
         student = self.db.get(Student, student_id)
         if student is None:
