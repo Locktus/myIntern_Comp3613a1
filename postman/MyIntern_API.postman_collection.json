@@ -80,6 +80,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
+                  "pm.collectionVariables.unset('applicationId');",
                   "pm.collectionVariables.set('username', 'pmstudent_' + Date.now());",
                   "pm.collectionVariables.set('email', pm.collectionVariables.get('username') + '@example.com');",
                   "pm.collectionVariables.set('password', 'postmanpass');"
