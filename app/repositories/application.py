@@ -41,3 +41,7 @@ class ApplicationRepository:
             Application.student_id == student_id
         ).order_by(Application.submitted_at.desc())
         return list(self.db.exec(query).all())
+
+    def list_all(self) -> list[Application]:
+        query = select(Application).order_by(Application.submitted_at.desc())
+        return list(self.db.exec(query).all())

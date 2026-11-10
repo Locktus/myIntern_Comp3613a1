@@ -28,4 +28,8 @@ from . import (
     admin_applications,
     my_applications,
     profile,
+    api_auth,
+    api_companies,
+    api_applications,
+    api_admin,
 )

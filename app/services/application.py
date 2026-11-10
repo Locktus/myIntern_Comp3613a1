@@ -5,6 +5,7 @@ from fastapi import HTTPException, UploadFile
 from sqlmodel import Session
 
 from app.models.internship import Application, Company, Student
+from app.models.user import User
 from app.repositories.application import ApplicationRepository
 
 UPLOAD_DIR = Path("app/static/uploads")
@@ -16,6 +17,17 @@ class ApplicationService:
 
     def list_for_student(self, student_id: int) -> list[Application]:
         return ApplicationRepository(self.db).list_for_student(student_id)
+
+    def list_all(self) -> list[Application]:
+        return ApplicationRepository(self.db).list_all()
+
+    def get_for_user(self, application_id: int, user: User) -> Application:
+        application = self.db.get(Application, application_id)
+        if application is None:
+            raise HTTPException(status_code=404, detail="Application not found")
+        if user.role != "admin" and application.student_id != user.id:
+            raise HTTPException(status_code=403, detail="You cannot view this application")
+        return application
 
     async def submit(
         self,
